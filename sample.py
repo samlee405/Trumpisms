@@ -4,7 +4,7 @@ import random
 
 # Get a random word from a file
 def sample():
-    textFile = sys.argv[1]
+    textFile = "fish.txt"
     histogram = wordFrequency.histogramFile(textFile)
     # print(histogram)
 
