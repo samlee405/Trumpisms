@@ -11,9 +11,10 @@ def getWord():
 @app.route('/<num>')
 def getSentence(num):
     sentence = ""
-    for _ in range(num):
+    for _ in range(int(num)):
         sentence += sample.sample() + " "
-    sentence.strip()
+        
+    return sentence.strip()
 
 if (__name__) == ('__main__'):
     port = int(os.environ.get("PORT", 5000))
