@@ -11,42 +11,29 @@ def cleanTextFile():
     # Begin cleaning
 
     # Remove speakers that aren't trump.
-    cleanedText = re.sub('Unknown:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', rawText)
-    cleanedText = re.sub('Billy Bush:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('Bush:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('Arianne Zucker:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('Zucker:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('FRED HIATT[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('STROMBERG:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('HIATT:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('ARMAO:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('HOPE HICKS, TRUMP CAMPAIGN SPOKESPERSON:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('JAMIE RILEY:[\w.,!?\’\'\"\[\]: —-…]–-*\n\n', '', cleanedText)
-    cleanedText = re.sub('CHRISTINE EMBA:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('KAREN ATTIAH:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('JAMIE RILEY:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('MICHAEL LARABEE:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('JAMES DOWNIE:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('DIEHL:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('RYAN:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('LANE:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('TOM TOLES, EDITORIAL CARTOONIST:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('LEWANDOWSKI:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('RUTH MARCUS:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('CHARLES LANE, EDITORIAL WRITER/COLUMNIST:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('RUTH MARCUS, COLUMNIST:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('MARCUS:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('STEPHEN STROMBERG, EDITORIAL WRITER:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('JO-ANN ARMAO, ASSOCIATE EDITORIAL PAGE EDITOR:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('ATTIAH:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
-    cleanedText = re.sub('CORY:[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', cleanedText)
+    cleanedText = re.sub('(Unknown|ATTIAH|CORY|LEWANDOWSKI|MARCUS|JO-ANN ARMAO, ASSOCIATE EDITORIAL PAGE EDITOR|STEPHEN STROMBERG, EDITORIAL WRITER|RUTH MARCUS|RUTH MARCUS, COLUMNIST|RYAN|CHARLES LANE, EDITORIAL WRITER/COLUMNIST|LANE|DIEHL|TOM TOLES, EDITORIAL CARTOONIST|JAMES DOWNIE|MICHAEL LARABEE|CHRISTINE EMBA|KAREN ATTIAH|JAMIE RILEY|ARMAO|Billy Bush|HOPE HICKS, TRUMP CAMPAIGN SPOKESPERSON|Bush|Arianne Zucker|Zucker|FRED HIATT|STROMBERG|HIATT):[\w.,!?\’\'\"\[\]: —\-…–;”“/]*\n\n', '', rawText)
+
+    # Remove Trump: prefixes from transcripts
+    cleanedText = re.sub('(Trump|Donald J. Trump|President-elect):', '', cleanedText)
 
     # Remove stage directions
-    cleanedText = re.sub('\[CROSSTALK\]\n\n', '', cleanedText)
-    cleanedText = re.sub('\[Crosstalk\]\n\n', '', cleanedText)
-    cleanedText = re.sub('\[Silence\]\n\n', '', cleanedText)
-    cleanedText = re.sub('\(Applause\)\n\n', '', cleanedText)
-    cleanedText = re.sub('\[Break in video\]\n\n', '', cleanedText)
+    cleanedText = re.sub(' ?(\[CROSSTALK\]|\[Crosstalk\]|\[crosstalk\])', '', cleanedText)
+    cleanedText = re.sub(' ?\[Silence\]', '', cleanedText)
+    cleanedText = re.sub(' ?(\(Applause\)|\[applause\])', '', cleanedText)
+    cleanedText = re.sub(' ?\[Break in video\]', '', cleanedText)
+    cleanedText = re.sub(' ?\(Laughter\)|\[laughter\]', '', cleanedText)
+    cleanedText = re.sub(' ?\(inaudible\)', '', cleanedText)
+    cleanedText = re.sub(' ?\(OFF-MIKE\)', '', cleanedText)
+
+    # cleanedText = re.sub(r'([a-z]\.)([A-Z])', r'\1 \2', cleanedText) eergerigegberjnkeghj
+
+    # Remove other miscellaneous text
+    cleanedText = re.sub('SPEECH \d', '', cleanedText)
+
+    # Fix sentence spacing (add a space after every period and then remove any instance of two consecutive white spaces)
+    cleanedText = cleanedText.replace('.', '. ')
+    cleanedText = cleanedText.replace('?', '? ')
+    cleanedText = cleanedText.replace('  ', ' ')
 
     # Create new file after parsing and cleaning
     with io.FileIO("cleanedText.txt", "w") as file:
