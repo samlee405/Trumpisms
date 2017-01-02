@@ -1,6 +1,7 @@
 import re
 
-def tokenize(text):
+def tokenizeText(text):
+    # add start and end
     cleanedText = lowerCase(text)
     cleanedText = removePunctuation(cleanedText)
     tokens = splitOnWhitespace(cleanedText)
@@ -25,5 +26,5 @@ if __name__ == '__main__':
     cleanedText = textFile.read()
     textFile.close()
 
-    tokens = tokenize(cleanedText)
+    tokens = tokenizeText(cleanedText)
     print(tokens)
