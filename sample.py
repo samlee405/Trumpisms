@@ -48,5 +48,5 @@ def sampleTest(count):
     print("one: " + str(oneCount) + "\n" + "two: " + str(twoCount) + "\n" + "three: "
     + str(threeCount) + "\n" + "four: " + str(fourCount) + "\n" + "fish: " + str(fishCount))
 
-# print(sample())
-# sampleTest(8000)
+print(sample())
+sampleTest(8000)
